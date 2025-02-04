@@ -5,8 +5,9 @@ import { Loader2 } from "lucide-react"
 
 const ConnectWallet = () => {
   const { address, isConnected } = useAccount()
-  const { connect, connectors, isLoading, pendingConnector } = useConnect()
+  const { connect, connectors } = useConnect()
   const { disconnect } = useDisconnect()
+  const [isLoading, setIsLoading] = useState(false)
 
   if (isConnected) {
     return (
@@ -24,9 +25,16 @@ const ConnectWallet = () => {
 
   return (
     <Button
-      onClick={() => {
-        connect({ connector: connectors[0] })
-        toast.success('Wallet connected successfully')
+      onClick={async () => {
+        setIsLoading(true)
+        try {
+          await connect({ connector: connectors[0] })
+          toast.success('Wallet connected successfully')
+        } catch (error) {
+          toast.error('Failed to connect wallet')
+        } finally {
+          setIsLoading(false)
+        }
       }}
       disabled={isLoading}
     >

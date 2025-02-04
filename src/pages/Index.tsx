@@ -1,12 +1,33 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
 
 const Index = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isLogin) {
+      // Login logic will be added when Supabase is connected
+      toast.info("Please connect Supabase to enable authentication");
+    } else {
+      // Register logic will be added when Supabase is connected
+      toast.info("Please connect Supabase to enable authentication");
+    }
+  };
+
   return (
     <div className="min-h-screen">
       <div className="relative isolate">
-        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
+        <div className="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8 lg:py-40">
+          <div className="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
             <div className="mb-8">
               <span className="inline-flex items-center rounded-md bg-primary/10 px-3 py-1 text-sm font-medium text-primary ring-1 ring-inset ring-primary/20">
                 Now in Beta
@@ -19,16 +40,75 @@ const Index = () => {
             <p className="text-lg leading-8 text-muted-foreground mb-8 fade-in">
               Join our decentralized network and monetize your unused internet bandwidth. Secure, transparent, and rewarding.
             </p>
-            <div className="flex items-center justify-center gap-x-6">
-              <Link to="/dashboard">
-                <Button size="lg" className="text-lg">
-                  Get Started
+          </div>
+
+          <div className="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0">
+            <Card className="w-full max-w-sm p-6 mx-auto glass">
+              <div className="flex justify-between mb-6">
+                <Button
+                  variant={isLogin ? "default" : "ghost"}
+                  onClick={() => setIsLogin(true)}
+                >
+                  Login
                 </Button>
-              </Link>
-              <Button variant="outline" size="lg" className="text-lg">
-                Learn More
-              </Button>
-            </div>
+                <Button
+                  variant={!isLogin ? "default" : "ghost"}
+                  onClick={() => setIsLogin(false)}
+                >
+                  Register
+                </Button>
+              </div>
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {!isLogin && (
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      id="name"
+                      type="text"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="John Doe"
+                      required
+                    />
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+
+                <Button type="submit" className="w-full">
+                  {isLogin ? "Sign In" : "Create Account"}
+                </Button>
+              </form>
+
+              {isLogin && (
+                <Button variant="link" className="w-full mt-2">
+                  Forgot password?
+                </Button>
+              )}
+            </Card>
           </div>
         </div>
         
