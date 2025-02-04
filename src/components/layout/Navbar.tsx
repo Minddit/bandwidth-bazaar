@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import ConnectWallet from "@/components/web3/ConnectWallet";
 
 const Navbar = () => {
   return (
@@ -17,7 +18,7 @@ const Navbar = () => {
             <Link to="/profile">
               <Button variant="ghost">Profile</Button>
             </Link>
-            <Button>Connect Wallet</Button>
+            <ConnectWallet />
           </div>
         </div>
       </div>
