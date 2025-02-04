@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { Button } from "@/components/ui/button"
 import { toast } from "sonner"
