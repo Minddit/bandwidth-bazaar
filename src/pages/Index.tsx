@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
+import { useAuth } from "../contexts/AuthContext";
 
 const Index = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,14 +13,20 @@ const Index = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { signIn, signUp } = useAuth();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isLogin) {
-      // Login logic will be added when Supabase is connected
-      toast.info("Please connect Supabase to enable authentication");
-    } else {
-      // Register logic will be added when Supabase is connected
-      toast.info("Please connect Supabase to enable authentication");
+    try {
+      if (isLogin) {
+        await signIn(email, password);
+        toast.success("Logged in successfully");
+      } else {
+        await signUp(email, password);
+        toast.success("Account created successfully");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Authentication failed");
     }
   };
 
